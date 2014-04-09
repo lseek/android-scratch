@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.graphics.Color;
+import java.util.ArrayList;
 
 
 public class ScrolledList extends Activity implements View.OnClickListener {
@@ -14,6 +15,7 @@ public class ScrolledList extends Activity implements View.OnClickListener {
     TextView infoArea;
     RadioGroup itemGrp;
     String[] inStrs;
+    ArrayList<RadioButton> items;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class ScrolledList extends Activity implements View.OnClickListener {
         infoArea.setBackgroundColor(Color.parseColor("#ffffaa"));
 
         inStrs = res.getStringArray(R.array.lorem);
+        items = new ArrayList<RadioButton>();
 
         RadioButton r;
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
@@ -39,6 +42,7 @@ public class ScrolledList extends Activity implements View.OnClickListener {
             r.setId(i);
             r.setOnClickListener(this);
             itemGrp.addView(r, lp);
+            items.add(r);
         }
     }
 
@@ -46,5 +50,11 @@ public class ScrolledList extends Activity implements View.OnClickListener {
         infoArea.setText(String.format("By ID:%s%nBy RadioGroup:%s",
                     inStrs[v.getId()],
                     inStrs[itemGrp.getCheckedRadioButtonId()]));
+    }
+
+    public void disableEntry(View disableBtn) {
+        RadioButton currItem;
+        currItem = items.get(itemGrp.getCheckedRadioButtonId());
+        currItem.setEnabled(false);
     }
 }

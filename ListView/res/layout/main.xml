@@ -19,5 +19,12 @@
         android:layout_height="0px"
         android:layout_weight="10"
         android:id="@+id/infoArea"/>
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="10"
+        android:text="Disable Entry"
+        android:onClick="disableEntry"
+        android:id="@+id/disable"/>
 </LinearLayout>
 
