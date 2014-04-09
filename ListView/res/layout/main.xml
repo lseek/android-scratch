@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <ListView
+        android:fillViewport="true"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="80"
+        android:id="@+id/wordList"/>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="10"
+        android:id="@+id/infoArea"/>
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="10"
+        android:text="Disable Entry"
+        android:onClick="disableEntry"
+        android:id="@+id/disable"/>
+</LinearLayout>
+
