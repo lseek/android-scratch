@@ -10,7 +10,6 @@ import android.widget.*;
 import android.graphics.Color;
 import android.util.SparseBooleanArray;
 import android.util.Log;
-import java.util.List;
 
 
 class CustomAdapter extends ArrayAdapter<String> {
