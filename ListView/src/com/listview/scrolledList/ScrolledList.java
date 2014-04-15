@@ -14,6 +14,7 @@ import android.util.Log;
 
 class CustomAdapter extends ArrayAdapter<String> {
     private SparseBooleanArray enabledItems = new SparseBooleanArray();
+    private int currSelection;
 
     public CustomAdapter(Context context, int textViewResourceId, String[] objects) {
         super(context, textViewResourceId, objects);
@@ -25,6 +26,11 @@ class CustomAdapter extends ArrayAdapter<String> {
         if (!isEnabled(position)) {
             Log.d("ListViewScrolledList", String.format("Position:%d is not enabled", position));
             item.setTextColor(Color.parseColor("#00ff00"));
+        } else if (position == currSelection) {
+            item.setBackgroundColor(Color.parseColor("#555555"));
+        } else {
+            item.setTextColor(Color.WHITE);
+            item.setBackgroundColor(Color.BLACK);
         }
         return item;
     }
@@ -43,6 +49,10 @@ class CustomAdapter extends ArrayAdapter<String> {
         boolean state = enabledItems.get(position, true);
         enabledItems.put(position, false);
         Log.d("ListViewScrolledList", String.format("Disabled:%d", position));
+    }
+
+    public void setSelection(int position) {
+        currSelection = position;
     }
 }
 
@@ -72,19 +82,12 @@ public class ScrolledList extends Activity {
                 TextView currItem = (TextView)view;
                 infoArea.setText(String.format("Selection:%s", currItem.getText().toString()));
                 currIdx = position;
+                entries.setSelection(position);
             }
         });
 
         infoArea = (TextView)findViewById(R.id.infoArea);
         infoArea.setBackgroundColor(Color.parseColor("#666600"));
 
-    }
-
-    public void disableEntry(View disableBtn) {
-        Log.d("ListViewScrolledList", String.format("Disabling:%d", currIdx));
-        entries.disableItem(currIdx);
-        Log.d("ListViewScrolledList", String.format("notifyDataSetChanged:%d", currIdx));
-        entries.notifyDataSetChanged();
-        Log.d("ListViewScrolledList", String.format("disableEntry:%d done", currIdx));
     }
 }
