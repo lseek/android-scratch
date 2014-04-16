@@ -26,6 +26,7 @@ class CustomAdapter extends ArrayAdapter<String> {
         if (!isEnabled(position)) {
             Log.d("ListViewScrolledList", String.format("Position:%d is not enabled", position));
             item.setTextColor(Color.parseColor("#00ff00"));
+            item.setBackgroundColor(Color.BLACK);
         } else if (position == currSelection) {
             item.setBackgroundColor(Color.parseColor("#555555"));
         } else {
@@ -73,7 +74,7 @@ public class ScrolledList extends Activity {
         inStrs = res.getStringArray(R.array.lorem);
 
         items = (ListView)findViewById(R.id.wordList);
-        entries = new CustomAdapter(this, android.R.layout.simple_list_item_1, inStrs);
+        entries = new CustomAdapter(this, R.layout.list_entry, inStrs);
         items.setAdapter(entries);
         items.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         items.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -90,4 +91,14 @@ public class ScrolledList extends Activity {
         infoArea.setBackgroundColor(Color.parseColor("#666600"));
 
     }
+
+    public void disableEntry(View disableBtn) {
+        Log.d("ListViewScrolledList", String.format("Disabling:%d", currIdx));
+        entries.disableItem(currIdx);
+        Log.d("ListViewScrolledList", String.format("notifyDataSetChanged:%d", currIdx));
+        entries.notifyDataSetChanged();
+        Log.d("ListViewScrolledList", String.format("disableEntry:%d done", currIdx));
+    }
+
+
 }
