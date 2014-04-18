@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.LayoutInflater;
 import android.widget.*;
 import android.graphics.Color;
 import android.util.SparseBooleanArray;
@@ -15,41 +16,58 @@ import android.util.Log;
 class CustomAdapter extends ArrayAdapter<String> {
     private SparseBooleanArray enabledItems = new SparseBooleanArray();
     private int currSelection;
-    Resources res;
+    private int itemTypeRsrcId;
+    private Resources res;
+    private LayoutInflater inflater;
 
 
     public CustomAdapter(Context context, int textViewResourceId, String[] objects, Resources res) {
         super(context, textViewResourceId, objects);
         this.res = res;
+        inflater = LayoutInflater.from(context);
+        itemTypeRsrcId = textViewResourceId;
     }
 
 
     public View getView(int position, View convertView, ViewGroup parent) {
+        TextView item;
+        int fg, bg;
+
         Log.d("ListViewScrolledList", String.format("getView(%d)", position));
-        TextView item = (TextView) super.getView(position, convertView, parent);
+        if (convertView == null) {
+            item = (TextView)inflater.inflate(itemTypeRsrcId, null);
+        } else {
+            item = (TextView)convertView;
+        }
         if (!isEnabled(position)) {
             Log.d("ListViewScrolledList", String.format("Position:%d is not enabled", position));
-            item.setTextColor(res.getColor(R.color.disabledItemFg));
-            item.setBackgroundColor(res.getColor(R.color.disabledItemBg));
+            fg = res.getColor(R.color.disabledItemFg);
+            bg = res.getColor(R.color.disabledItemBg);
         } else if (position == currSelection) {
-            item.setTextColor(res.getColor(R.color.selectedItemFg));
-            item.setBackgroundColor(res.getColor(R.color.selectedItemBg));
+            fg = res.getColor(R.color.selectedItemFg);
+            bg = res.getColor(R.color.selectedItemBg);
         } else {
-            item.setTextColor(res.getColor(R.color.normalItemFg));
-            item.setBackgroundColor(res.getColor(R.color.normalItemBg));
+            fg = res.getColor(R.color.normalItemFg);
+            bg = res.getColor(R.color.normalItemBg);
         }
+        item.setText(getItem(position));
+        item.setTextColor(fg);
+        item.setBackgroundColor(bg);
         return item;
     }
+
 
     @Override
     public boolean areAllItemsEnabled() {
         return false;
     }
 
+
     @Override
     public boolean isEnabled(int position) {
         return enabledItems.get(position, true);
     }
+
 
     public void disableItem(int position) {
         boolean state = enabledItems.get(position, true);
@@ -57,10 +75,12 @@ class CustomAdapter extends ArrayAdapter<String> {
         Log.d("ListViewScrolledList", String.format("Disabled:%d", position));
     }
 
+
     public void setSelection(int position) {
         currSelection = position;
     }
 }
+
 
 public class ScrolledList extends Activity {
     Resources res;

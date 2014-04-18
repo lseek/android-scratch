@@ -9,6 +9,8 @@
         android:layout_width="fill_parent"
         android:layout_height="0px"
         android:layout_weight="80"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:id="@+id/wordList"/>
     <TextView
         android:layout_width="fill_parent"
