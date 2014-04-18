@@ -15,23 +15,28 @@ import android.util.Log;
 class CustomAdapter extends ArrayAdapter<String> {
     private SparseBooleanArray enabledItems = new SparseBooleanArray();
     private int currSelection;
+    Resources res;
 
-    public CustomAdapter(Context context, int textViewResourceId, String[] objects) {
+
+    public CustomAdapter(Context context, int textViewResourceId, String[] objects, Resources res) {
         super(context, textViewResourceId, objects);
+        this.res = res;
     }
+
 
     public View getView(int position, View convertView, ViewGroup parent) {
         Log.d("ListViewScrolledList", String.format("getView(%d)", position));
         TextView item = (TextView) super.getView(position, convertView, parent);
         if (!isEnabled(position)) {
             Log.d("ListViewScrolledList", String.format("Position:%d is not enabled", position));
-            item.setTextColor(Color.parseColor("#00ff00"));
-            item.setBackgroundColor(Color.BLACK);
+            item.setTextColor(res.getColor(R.color.disabledItemFg));
+            item.setBackgroundColor(res.getColor(R.color.disabledItemBg));
         } else if (position == currSelection) {
-            item.setBackgroundColor(Color.parseColor("#555555"));
+            item.setTextColor(res.getColor(R.color.selectedItemFg));
+            item.setBackgroundColor(res.getColor(R.color.selectedItemBg));
         } else {
-            item.setTextColor(Color.WHITE);
-            item.setBackgroundColor(Color.BLACK);
+            item.setTextColor(res.getColor(R.color.normalItemFg));
+            item.setBackgroundColor(res.getColor(R.color.normalItemBg));
         }
         return item;
     }
@@ -74,7 +79,7 @@ public class ScrolledList extends Activity {
         inStrs = res.getStringArray(R.array.lorem);
 
         items = (ListView)findViewById(R.id.wordList);
-        entries = new CustomAdapter(this, R.layout.list_entry, inStrs);
+        entries = new CustomAdapter(this, R.layout.list_entry, inStrs, res);
         items.setAdapter(entries);
         items.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         items.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="normalItemFg">#ffffff</color>
+    <color name="normalItemBg">#000000</color>
+    <color name="selectedItemFg">#ffffff</color>
+    <color name="selectedItemBg">#666666</color>
+    <color name="disabledItemFg">#007700</color>
+    <color name="disabledItemBg">#000000</color>
+</resources>
